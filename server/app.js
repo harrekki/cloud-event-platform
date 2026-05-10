@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const authRoutes = require('./routes/authRoutes');
+const pool = require('./config/db');
 
 const app = express();
 
@@ -24,7 +25,44 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Routes
+// Database test route
+app.get('/db-test', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()');
+
+    res.json({
+      message: 'Database connection successful',
+      time: result.rows[0].now
+    });
+  } catch (error) {
+    console.error('Database connection error:', error);
+
+    res.status(500).json({
+      message: 'Database connection failed',
+      error: error.message
+    });
+  }
+});
+
+// Database user test route
+app.get('/users-test', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM users');
+
+    res.json({
+      message: 'Users retrieved successfully',
+      users: result.rows
+    });
+  } catch (error) {
+    console.error('Error retrieving users:', error);
+
+    res.status(500).json({
+      message: 'Failed to retrieve users',
+      error: error.message
+    });
+  }
+});
+
 app.use('/api/auth', authRoutes);
 
 module.exports = app;
