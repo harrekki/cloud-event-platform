@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    title VARCHAR(100),
+    role VARCHAR(20), NOT NULL DEFAULT 'user',
     company VARCHAR(100),
     email VARCHAR(255) UNIQUE NOT NULL,
     phone VARCHAR(20),

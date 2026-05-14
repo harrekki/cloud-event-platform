@@ -5,7 +5,7 @@ const {
     getCurrentUser 
 } = require('../controllers/authController');
 
-const { requireTitle } = require('../middleware/roleMiddleware');
+const { requireRole } = require('../middleware/roleMiddleware');
 
 const { authenticateToken } = require('../middleware/authMiddleware');
 
@@ -17,7 +17,7 @@ router.get('/me', authenticateToken, getCurrentUser);
 router.get(
     '/admin-test', 
     authenticateToken, 
-    requireTitle('admin'), 
+    requireRole('admin'), 
     (req, res) => {
         res.json({
             message: "Admin route working",

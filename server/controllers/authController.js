@@ -7,7 +7,7 @@ const generateToken = (user) => {
         { 
             id: user.id, 
             email: user.email ,
-            title: user.title,
+            role: user.role,
         }, 
         process.env.JWT_SECRET, 
         {
@@ -42,7 +42,7 @@ const registerUser = async (req, res) => {
         const result = await pool.query(
             `INSERT INTO users (first_name, last_name, email, password_hash) 
             VALUES ($1, $2, $3, $4) 
-            RETURNING id, first_name, last_name, email, title, created_at`,
+            RETURNING id, first_name, last_name, email, role, created_at`,
             [firstName, lastName, email, passwordHash]
         );
 
@@ -107,7 +107,7 @@ const loginUser = async (req, res) => {
         firstName: user.first_name,
         lastName: user.last_name,
         email: user.email,
-        title: user.title,
+        role: user.role,
       },
       token,
     });
@@ -123,7 +123,7 @@ const loginUser = async (req, res) => {
 const getCurrentUser = async (req, res) => {
     try {
         const result = await pool.query(
-            `SELECT id, first_name, last_name, email, title 
+            `SELECT id, first_name, last_name, email, role 
             FROM users 
             WHERE id = $1`,
             [req.user.id]
