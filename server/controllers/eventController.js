@@ -10,9 +10,13 @@ const getEvents = async (req, res) => {
                     e.event_date,
                     e.capacity,  
                     e.created_at, 
-                    CONCAT(u.first_name, ' ', u.last_name) AS created_by_name
+                    CONCAT(u.first_name, ' ', u.last_name) AS created_by_name,
+                    COUNT(r.id) AS registration_count,
+                    e.capacity - COUNT(r.id) AS spots_remaining
             FROM events e
             LEFT JOIN users u ON e.created_by = u.id
+            LEFT JOIN registrations r ON e.id = r.event_id
+            GROUP BY e.id, u.first_name, u.last_name
             ORDER BY e.event_date ASC`
         );
 
@@ -36,10 +40,14 @@ const getEventById = async (req, res) => {
                     e.event_date,
                     e.capacity,  
                     e.created_at, 
-                    CONCAT(u.first_name, ' ', u.last_name) AS created_by_name
+                    CONCAT(u.first_name, ' ', u.last_name) AS created_by_name,
+                    COUNT(r.id) AS registration_count,
+                    e.capacity - COUNT(r.id) AS spots_remaining
             FROM events e
             LEFT JOIN users u ON e.created_by = u.id
-            WHERE e.id = $1`,
+            LEFT JOIN registrations r ON e.id = r.event_id
+            WHERE e.id = $1
+            GROUP BY e.id, u.first_name, u.last_name`,
             [id]
         );
 
