@@ -4,6 +4,7 @@ import { useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Events from './pages/Events';
+import MyEvents from './pages/MyEvents';
 import EventDetails from './pages/EventDetails';
 import Register from './pages/Register';
 
@@ -27,6 +28,7 @@ function App() {
       <nav>
         <Link to="/">Home</Link> |{" "}
         <Link to="/events">Events</Link> |{" "}
+        {user && <Link to="/my-events">My Events</Link>}
 
           {user ? ( 
             <>
@@ -46,6 +48,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/my-events" element={<MyEvents />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>

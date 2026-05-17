@@ -75,11 +75,11 @@ const getMyRegistrations = async (req, res) => {
             `SELECT 
                 r.id,
                 r.registered_at,
-                e.id AS event_id,
+                e.id AS eventId,
                 e.title,
                 e.description,
                 e.location, 
-                e.event_date 
+                e.event_date AS "eventDate"
             FROM registrations r
             JOIN events e ON r.event_id = e.id
             WHERE r.user_id = $1
