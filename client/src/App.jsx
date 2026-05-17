@@ -1,38 +1,57 @@
-import { useState } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
 
-import Home from './pages/Home'
-import Login from './pages/Login'
-import Events from './pages/Events'
-import EventDetails from './pages/EventDetails'
-import Register from './pages/Register'
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Events from './pages/Events';
+import EventDetails from './pages/EventDetails';
+import Register from './pages/Register';
 
 import './App.css'
 
 function App() {
+  const { user, logout, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
       <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/login">Login</Link></li>
-          <li><Link to="/register">Register</Link></li>
-          <li><Link to="/events">Events</Link></li>
-        </ul>
+        <Link to="/">Home</Link> |{" "}
+        <Link to="/events">Events</Link> |{" "}
+
+          {user ? ( 
+            <>
+              <span>Logged in as {user.lastName + ", " + user.firstName}</span> |{" "}
+              <button onClick={handleLogout}>Logout</button>
+            </>
+          ) : (
+             <>
+               <Link to="/login">Login</Link> |{" "}
+               <Link to="/register">Register</Link>
+             </>
+          )}
       </nav>
 
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </main>
     </>
-  )
+  );
 }
 
 export default App;

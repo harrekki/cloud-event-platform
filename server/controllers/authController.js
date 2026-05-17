@@ -46,8 +46,17 @@ const registerUser = async (req, res) => {
             [firstName, lastName, email, passwordHash]
         );
 
-        const user = result.rows[0];
-        const token = generateToken(user);
+        const dbUser = result.rows[0];
+
+        const user = {
+            id: dbUser.id,
+            firstName: dbUser.first_name,
+            lastName: dbUser.last_name,
+            email: dbUser.email,
+            role: dbUser.role,
+        };
+
+        const token = generateToken(dbUser);
 
         res.status(201).json({ 
             message: 'User registered successfully',
@@ -135,8 +144,16 @@ const getCurrentUser = async (req, res) => {
             });
         }
 
+        const user = result.rows[0];
+
         res.json({
-            user: result.rows[0],
+            user: {
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                email: user.email,
+                role: user.role,
+            },
         });
     } catch (error) {
         console.error("Get current user error:", error);
