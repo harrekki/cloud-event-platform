@@ -8,6 +8,10 @@ import MyEvents from './pages/MyEvents';
 import EventDetails from './pages/EventDetails';
 import Register from './pages/Register';
 
+import AdminDashboard from './pages/AdminDashboard';
+import CreateEvent from './pages/CreateEvent';
+import EditEvent from './pages/EditEvent';
+
 import './App.css'
 
 function App() {
@@ -29,11 +33,17 @@ function App() {
         <Link to="/">Home</Link> |{" "}
         <Link to="/events">Events</Link> |{" "}
         {user && <Link to="/my-events">My Events</Link>}
+        {user?.role === 'admin' && (
+          <>
+            {" | "}
+            <Link to="/admin">Admin</Link>
+          </>
+        )}
 
-          {user ? ( 
-            <>
-              <span>Logged in as {user.lastName + ", " + user.firstName}</span> |{" "}
-              <button onClick={handleLogout}>Logout</button>
+        {user ? ( 
+          <>
+            <span>Logged in as {user.lastName + ", " + user.firstName}</span> |{" "}
+            <button onClick={handleLogout}>Logout</button>
             </>
           ) : (
              <>
@@ -51,6 +61,9 @@ function App() {
           <Route path="/my-events" element={<MyEvents />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/events/new" element={<CreateEvent />} />
+          <Route path="/admin/events/:id/edit" element={<EditEvent />} />
         </Routes>
       </main>
     </>
