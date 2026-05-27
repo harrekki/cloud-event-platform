@@ -13,6 +13,8 @@ import CreateEvent from './pages/CreateEvent';
 import EditEvent from './pages/EditEvent';
 
 import './App.css'
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 
 function App() {
   const { user, logout, loading } = useAuth();
@@ -56,14 +58,45 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/events/:id" element={<EventDetails />} />
-          <Route path="/my-events" element={<MyEvents />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/events/new" element={<CreateEvent />} />
-          <Route path="/admin/events/:id/edit" element={<EditEvent />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<EventDetails />} />
+          
+          <Route 
+            path="/my-events" 
+            element={
+              <ProtectedRoute>
+                <MyEvents />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/admin" 
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            } 
+          />
+          <Route 
+            path="/admin/events/new" 
+            element={
+              <AdminRoute>
+                <CreateEvent />
+              </AdminRoute>
+            } 
+          />
+
+          <Route 
+            path="/admin/events/:id/edit" 
+            element={
+              <AdminRoute>
+                <EditEvent />
+              </AdminRoute>
+            } 
+          />
         </Routes>
       </main>
     </>
