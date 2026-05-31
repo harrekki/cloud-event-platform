@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react";
+import Spinner from "../components/Spinner";
 import api from "../services/api";
 
 function MyEvents() {
     const [registrations, setRegistrations] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
     const fetchRegistrations = async () => {
         try {
+            setLoading(true);
+            setError("");
+
             const response = await api.get("/registrations/my");
             setRegistrations(response.data.registrations);
         } catch (error) {
             console.error("Error fetching registrations:", error);
             setError("Unable to load your events.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -29,14 +36,24 @@ function MyEvents() {
         }
     };
 
+    if(loading) {
+        return <Spinner></Spinner>;
+    }
+
+    if (error) {
+        return <p className="error alert alert-danger m-5" role="alert">{error}</p>;
+    }
+
     return (
         <div className="my-events container">
             <h1 className="text-center">My Events</h1>
 
-            {error && <p className="error">{error}</p>}
-
             {registrations.length === 0 ? (
-                <p class="alert alert-primary w-50" role="alert">You haven't registered for any events yet.</p>
+                <div className="row" style={{height: "80vh"}}>
+                    <div className="col-sm-12 text-center">
+                        <p className="alert alert-primary w-50 mt-3 mx-auto" role="alert">You haven't registered for any events yet.</p>
+                    </div>
+                </div>
             ) : (
                 <div className="d-sm-flex flex-wrap justify-content-center p-2">
                     {registrations.map((registration) => (

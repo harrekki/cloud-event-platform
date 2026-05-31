@@ -13,6 +13,7 @@ function Login() {
   });
 
   const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
 
   const handleChange = (event) => {
     setFormData({ 
@@ -26,17 +27,21 @@ function Login() {
     setError('');
 
     try {
+      setSaving(true);
+
       const response = await api.post('/auth/login', formData);
 
       login(response.data.user, response.data.token);
       navigate('/events');
     } catch (error) {
       setError(error.response?.data?.message || 'Login failed');
+    } finally {
+      setSaving(false);
     }
   };
 
   return (
-    <div className="login container mt-5" style={{height: "80vh;"}}>
+    <div className="login container mt-5" style={{height: "80vh"}}>
       <div className="row">
         <div className="col-sm-3"></div>
         <div className="col-sm-6">
@@ -71,7 +76,12 @@ function Login() {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary">Login</button>
+            <button type="submit" className="btn btn-primary" disabled={saving}>
+              {saving ? 
+                (<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>) : 
+                "Login"
+              }
+            </button>
           </form>
         </div>
         <div className="col-sm-3"></div>

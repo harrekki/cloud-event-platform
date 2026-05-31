@@ -1,30 +1,47 @@
 import { useEffect, useState } from "react"; 
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 import api from "../services/api";
 
 function Events() {
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        setLoading(true);
+        setError("");
+
         const response = await api.get("/events");
         setEvents(response.data.events);
       } catch (error) {
         console.error("Error fetching events:", error);
         setError("Unable to load events.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchEvents();
   }, []);
 
+  if(loading) {
+    return <Spinner></Spinner>;
+  }
+
+  if (error) {
+    return <p className="error alert alert-danger m-5" role="alert">{error}</p>;
+  }
+
+  if(events.length === 0) {
+    return <p className="alert alert-primary m-5" role="alert">There are currently no events scheduled.</p>;
+  }
+
   return (
     <div className="events text-center px-5">
       <h1 className="mb-3">Events</h1>
-
-      {error && <p className="error">{error}</p>}
 
       <div className="d-sm-flex flex-wrap justify-content-center p-2">
        

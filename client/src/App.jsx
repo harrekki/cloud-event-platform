@@ -126,7 +126,7 @@ function App() {
       <footer className="footer mt-4 py-3 bg-dark text-light">
         <div className="container px-4">
           <div className="row text-center">
-            <p class="my-2">
+            <p className="my-2">
               <small>Copyright &copy; 2026. All rights reserved.&nbsp; 
                 <a href="https://www.davidlarocco.dev" target="_blank" className="link-light link-underline-opacity-50-hover">
                   David LaRocco

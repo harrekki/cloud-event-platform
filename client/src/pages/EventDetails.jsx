@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Spinner from "../components/Spinner";
 import api from "../services/api";
 
 function EventDetails() {
   const { id } = useParams();
 
   const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const { user } = useAuth();
@@ -14,11 +16,17 @@ function EventDetails() {
 
   const fetchEvent = async () => {
     try {
+      setLoading(true);
+      setError("");
+
       const response = await api.get(`/events/${id}`);
+      // const response = await api.get(`/events/9`);
       setEvent(response.data.event);
     } catch (error) {
       console.error("Error fetching event:", error);
       setError("Unable to load event details.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -40,12 +48,16 @@ function EventDetails() {
     } 
   };
 
+  if(loading) {
+    return <Spinner></Spinner>;
+  }
+
   if (error) {
-    return <p className="error">{error}</p>;
+    return <p className="error alert alert-danger m-5" role="alert">{error}</p>;
   }
 
   if (!event) {
-    return <p>Loading...</p>;
+    return <p className="alert alert-warning m-5" role="alert">Event not found</p>;
   }
 
   return (
@@ -59,7 +71,7 @@ function EventDetails() {
         <div className="col-sm-8">
           <div className="card">
             <div className="card-body">
-              <h2 className="card-title">{event.title}</h2>
+              <h2 className="card-title text-center">{event.title}</h2>
               <hr />
               <div className="p-3">
                 <h6 className="card-subtitle text-body-secondary mb-4">
@@ -77,7 +89,7 @@ function EventDetails() {
                     </button>
                   </div>
                 ) : (
-                  <p class="alert alert-primary" role="alert">
+                  <p className="alert alert-primary" role="alert">
                     Please log in to register for this event.
                   </p>
                 )}

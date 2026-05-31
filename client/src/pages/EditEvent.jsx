@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
+import Spinner from "../components/Spinner";
 import api from "../services/api";
 
 function EditEvent() {
@@ -13,11 +14,16 @@ function EditEvent() {
         capacity: 0,
     });
 
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
 
     useEffect(() => {
         const fetchEvent = async () => {
             try {
+                setLoading(true);
+                setError("");
+
                 const response = await api.get(`/events/${id}`);
                 const eventData = response.data.event;
 
@@ -31,6 +37,8 @@ function EditEvent() {
             } catch (error) {
                 console.error("Error fetching event:", error);
                 setError("Unable to load event details.");
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -47,8 +55,9 @@ function EditEvent() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError("");
-
         try {
+            setSaving(true);
+
             await api.put(`/events/${id}`, {
                 title: formData.title,
                 description: formData.description,
@@ -60,8 +69,18 @@ function EditEvent() {
         } catch (error) {
             console.error("Error updating event:", error);
             setError(error.response?.data?.message || "Failed to update event.");
+        } finally {
+            setSaving(false);
         }
     };
+
+    if(loading) {
+        return <Spinner></Spinner>;
+    }
+
+    if (error) {
+        return <p className="error alert alert-danger m-5" role="alert">{error}</p>;
+    }
 
     return (
         <div className="edit-event container">
@@ -133,11 +152,12 @@ function EditEvent() {
                 </div>
                 <div className="my-4 row">
                     <div className="col-sm-4">
-                        <button className="btn btn-primary" type="submit">Update Event</button>
+                        <button className="btn btn-primary" type="submit" disabled={saving}>
+                            {saving ? "Saving..." : "Update Event"}
+                        </button>
                     </div>
                     <div className="col-sm-8">
                         <Link className="btn btn-link link-danger" to="/admin">Cancel</Link>
-
                     </div>
                 </div>
             </form>

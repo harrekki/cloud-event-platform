@@ -12,6 +12,7 @@ function CreateEvent() {
         capacity: 0,
     });
 
+    const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
 
     const handleChange = (event) => {
@@ -26,11 +27,14 @@ function CreateEvent() {
         setError("");
 
         try {
+            setSaving(true);
             await api.post("/events", formData);
             navigate("/admin");
         } catch (error) {
             console.error("Error creating event:", error);
             setError(error.response?.data?.message || "Failed to create event.");
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -106,7 +110,9 @@ function CreateEvent() {
 
                 <div className="my-4 row">
                     <div className="col-sm-4">
-                        <button className="btn btn-primary" type="submit">Create Event</button>
+                        <button className="btn btn-primary" type="submit" disabled={saving}>
+                            {saving ? "Saving..." : "Create Event"}
+                        </button>
                     </div>
                     <div className="col-sm-8">
                         <Link className="btn btn-link link-danger" to="/admin">Cancel</Link>

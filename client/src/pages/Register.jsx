@@ -15,6 +15,7 @@ function Register() {
     password: '',
   });
 
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
   const handleChange = (event) => {
@@ -27,15 +28,19 @@ function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError('');
-
+    
     try {
+      setSaving(true);
+      setError("");
+
       const response = await api.post('/auth/register', formData);
 
       login(response.data.user, response.data.token);
       navigate('/events');
     } catch (error) {
       setError(error.response?.data?.message || 'Registration failed');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -121,7 +126,9 @@ function Register() {
           />
         </div>
 
-        <button className="btn btn-primary" type="submit">Create Account</button>
+        <button className="btn btn-primary" type="submit" disabled={saving}>
+          {saving ? "Saving..." : "Create Account"}
+        </button>
       </form>
     </div>
   );
