@@ -36,38 +36,46 @@ function Login() {
   };
 
   return (
-    <div className="login">
-      <h1>Login</h1>
+    <div className="login container mt-5" style={{height: "80vh;"}}>
+      <div className="row">
+        <div className="col-sm-3"></div>
+        <div className="col-sm-6">
+          <h1>Login</h1>
 
-      {error && <p className="error">{error}</p>}
+          {error && <p className="error">{error}</p>}
       
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <form className="mt-3 p-5 border border-secondary-subtle rounded" onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="email">Email</label>
+              <input
+                className="form-control"
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="password">Password</label>
+              <input
+                className="form-control"
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <button type="submit">Login</button>
-      </form>
+            <button type="submit" className="btn btn-primary">Login</button>
+          </form>
+        </div>
+        <div className="col-sm-3"></div>
+      </div>
     </div>
   );
 }

@@ -21,20 +21,26 @@ function Events() {
   }, []);
 
   return (
-    <div className="events">
-      <h1>Events</h1>
+    <div className="events text-center px-5">
+      <h1 className="mb-3">Events</h1>
 
       {error && <p className="error">{error}</p>}
 
-      {events.map((event) => (
-        <div key={event.id} className="event">
-          <h2>{event.title}</h2>
-          <p>{event.description}</p>
-          <p>Location: {event.location}</p>
-          <p>Spots remaining: {event.spots_remaining}</p>
-          <Link to={`/events/${event.id}`}>View Details</Link>
-        </div>
-      ))}
+      <div className="d-sm-flex flex-wrap justify-content-center p-2">
+       
+        {events.map((event) => (
+          <div key={event.id} className="event card bg-body-tertiary p-3 text-center m-3" style={{width: "40%"}}>
+            <div className="card-body d-flex flex-column justify-content-evenly align-items-center">
+              <h4 className="card-title">{event.title}</h4>
+              <p className="card-text">{event.description}</p>
+              <p className="card-subtitle text-body-secondary">Location: {event.location}</p>
+              <p className="card-subtitle text-body-secondary mb-3">Spots remaining: {event.spots_remaining}</p>
+              <Link className="card-link btn btn-primary w-50" to={`/events/${event.id}`}>View Details</Link>
+            </div>
+          </div>
+        ))}
+
+      </div>
     </div>
   );
 }

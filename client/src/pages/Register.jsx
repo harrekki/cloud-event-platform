@@ -40,62 +40,78 @@ function Register() {
   };
 
   return (
-    <div className="register">
+    <div className="register container">
       <h1>Register</h1>
 
       {error && <p className="error">{error}</p>}
       
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="firstName">First Name</label>
+      <form className="mt-3 w-50" onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="firstName">First Name</label>
           <input
+            className="form-control"
             type="text"
             id="firstName"
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
+            minLength={2}
+            maxLength={30}
             required
           />
         </div>
 
-        <div>
-          <label htmlFor="lastName">Last Name</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="lastName">Last Name</label>
           <input
+            className="form-control"
             type="text"
             id="lastName"
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
+            minLength={2}
+            maxLength={30}
             required
           />
         </div>
 
-        <div>
-          <label htmlFor="email">Email</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="phone">Phone</label>
           <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="phone">Phone</label>
-          <input
+            className="form-control"
             type="tel"
             id="phone"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
           />
+          <div id="phone-text" className="form-text">
+            Please enter numbers only (ex. 1112223333).
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="password">Password</label>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="email">Email</label>
           <input
+            className="form-control"
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            maxLength={50}
+            required
+          />
+          <div id="email-text" className="form-text">
+            A unique email is required in order to receive a confirmation.
+          </div>
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label" htmlFor="password">Password</label>
+          <input
+            className="form-control"
             type="password"
             id="password"
             name="password"
@@ -105,7 +121,7 @@ function Register() {
           />
         </div>
 
-        <button type="submit">Create Account</button>
+        <button className="btn btn-primary" type="submit">Create Account</button>
       </form>
     </div>
   );

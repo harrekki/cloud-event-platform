@@ -31,29 +31,52 @@ function App() {
 
   return (
     <>
-      <nav>
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/events">Events</Link> |{" "}
-        {user && <Link to="/my-events">My Events</Link>}
-        {user?.role === 'admin' && (
-          <>
-            {" | "}
-            <Link to="/admin">Admin</Link>
-          </>
-        )}
+      <header className="mb-auto">
+        <nav className="navbar navbar-expand-lg border-bottom mb-3">
+          <div className="container-fluid">
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                <li className="nav-item">
+                  <Link to="/" className="nav-link">Home</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/events" className="nav-link">Events</Link>
+                </li>
+                {user &&
+                  <li className="nav-item">
+                    <Link to="/my-events" className="nav-link">My Events</Link>
+                  </li> 
+                }
+                {user?.role === 'admin' && (
+                  <li className="nav-item">
+                    <Link to="/admin" className="nav-link">Admin</Link>
+                  </li>
+                )}
 
-        {user ? ( 
-          <>
-            <span>Logged in as {user.lastName + ", " + user.firstName}</span> |{" "}
-            <button onClick={handleLogout}>Logout</button>
-            </>
-          ) : (
-             <>
-               <Link to="/login">Login</Link> |{" "}
-               <Link to="/register">Register</Link>
-             </>
-          )}
-      </nav>
+                {!user && ( 
+                  <>
+                    <li className="nav-item">
+                      <Link to="/login" className="nav-link">Login</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to="/register" className="nav-link">Register</Link>
+                    </li>
+                  </>
+                )}
+              </ul>
+              {user && (
+                <div className="d-flex">
+                    <span className="navbar-text">Logged in as {user.lastName + ", " + user.firstName}&nbsp;&nbsp;</span>
+                    <button className="btn btn-link" type="button" onClick={handleLogout}>Logout</button>
+                </div>
+              )}
+            </div>
+          </div>
+        </nav>
+      </header>
 
       <main>
         <Routes>
@@ -99,6 +122,19 @@ function App() {
           />
         </Routes>
       </main>
+
+      <footer className="footer mt-4 py-3 bg-dark text-light">
+        <div className="container px-4">
+          <div className="row text-center">
+            <p class="my-2">
+              <small>Copyright &copy; 2026. All rights reserved.&nbsp; 
+                <a href="https://www.davidlarocco.dev" target="_blank" className="link-light link-underline-opacity-50-hover">
+                  David LaRocco
+                </a>.</small>
+            </p>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
