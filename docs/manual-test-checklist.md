@@ -12,7 +12,8 @@
 - [ ] Confirm spots remaining updates
 - [ ] View My Events
 - [ ] Cancel registration
-- [ ] Confirm event disappears from My Events
+
+---
 
 ## Admin Flow
 
@@ -22,10 +23,20 @@
 - [ ] Create event
 - [ ] Edit event
 - [ ] Delete event
-- [ ] Confirm deleted event disappears
+
+---
 
 ## Access Control
 
-- [ ] Logged-out user cannot access My Events
-- [ ] Normal user cannot access Admin Dashboard
-- [ ] Admin-only API routes reject normal users
+- [ ] Logged-out user redirected from My Events
+- [ ] Normal user redirected from Admin Dashboard
+- [ ] Normal user cannot access admin routes directly
+
+---
+
+## Error States
+
+- [ ] Invalid login shows error
+- [ ] Duplicate registration shows error
+- [ ] Missing event shows error
+- [ ] Empty event list displays correctly
