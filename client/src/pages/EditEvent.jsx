@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import Spinner from "../components/Spinner";
 import api from "../services/api";
+import Spinner from "../components/Spinner";
+import { formatDateTimeForInput } from "../utils/dateUtils";
 
 function EditEvent() {
     const { id } = useParams();
@@ -31,7 +32,7 @@ function EditEvent() {
                     title: eventData.title || "",
                     description: eventData.description || "",
                     location: eventData.location || "",
-                    eventDate: eventData.eventDate || "",
+                    eventDate: formatDateTimeForInput(eventData.eventDate) || "",
                     capacity: eventData.capacity || 0,
                 });
             } catch (error) {
@@ -129,7 +130,7 @@ function EditEvent() {
                     <label className="form-label" htmlFor="event_date">Event Date</label>
                     <input
                         className="form-control"
-                        type="text"
+                        type="datetime-local"
                         id="eventDate"
                         name="eventDate"
                         value={formData.eventDate}

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Spinner from "../components/Spinner";
 import api from "../services/api";
+import Spinner from "../components/Spinner";
+import { formatDateTime } from "../utils/dateUtils";
 
 function AdminDashboard() {
     const [events, setEvents] = useState([]);
@@ -74,7 +75,7 @@ function AdminDashboard() {
                             <div className="card-body d-flex flex-column justify-content-evenly align-items-center">
                                 <h4 className="card-title">{event.title}</h4>
                                 <span className="card-subtitle text-body-secondary">Location: {event.location}</span>
-                                <span className="card-subtitle text-body-secondary mb-3">Date: {event.eventDate}</span>
+                                <span className="card-subtitle text-body-secondary mb-3">Date: {formatDateTime(event.eventDate)}</span>
                                 <Link className="btn btn-sm btn-primary w-50 mb-3" to={`/admin/events/${event.id}/edit`}>Edit this event</Link>
                                 <button className="btn btn-sm btn-danger w-50" onClick={() => handleDelete(event.id)} disabled={deleting}>
                                     {deleting ? "Deleting..." : "Delete this event"}

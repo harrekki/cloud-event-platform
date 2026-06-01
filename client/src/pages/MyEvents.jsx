@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import Spinner from "../components/Spinner";
 import api from "../services/api";
+import Spinner from "../components/Spinner";
+import { formatDateTime } from "../utils/dateUtils";
 
 function MyEvents() {
     const [registrations, setRegistrations] = useState([]);
@@ -62,7 +63,7 @@ function MyEvents() {
                                 <h2 className="card-title">{registration.title}</h2>
                                 <p className="card-text">{registration.description}</p>
                                 <p className="card-subtitle text-body-secondary">{registration.location}</p>
-                                <p className="card-subtitle text-body-secondary mb-4">{registration.eventDate}</p>
+                                <p className="card-subtitle text-body-secondary mb-4">{formatDateTime(registration.eventDate)}</p>
                                 <button className="btn btn-sm btn-danger" onClick={() => handleCancel(registration.id)}>
                                     Cancel Registration
                                 </button>

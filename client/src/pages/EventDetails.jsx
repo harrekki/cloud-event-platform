@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Spinner from "../components/Spinner";
+import { formatDateTime } from "../utils/dateUtils";
 import api from "../services/api";
 
 function EventDetails() {
@@ -78,7 +79,7 @@ function EventDetails() {
                   {event.description}
                 </h6>
                 <p className="card-text"><b>Location:</b> {event.location}</p>
-                <p className="card-text"><b>Date:</b> {event.eventDate}</p>
+                <p className="card-text"><b>Date:</b> {formatDateTime(event.eventDate)}</p>
                 <p className="card-text"><b>Capacity:</b> {event.capacity}</p>
                 <p className="card-text"><b>Registered:</b> {event.registration_count}</p>
                 <p className="card-text mb-4"><b>Spots remaining:</b> {event.spots_remaining}</p>
